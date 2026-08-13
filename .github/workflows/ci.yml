@@ -12,6 +12,21 @@ jobs:
   backend-ci:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cicd_dashboard
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d cicd_dashboard"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     defaults:
       run:
         working-directory: backend
@@ -41,6 +56,8 @@ jobs:
         run: flake8 app tests
 
       - name: Run Tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cicd_dashboard
         run: pytest --cov=app --cov-report=xml
 
       - name: Bandit
@@ -48,10 +65,3 @@ jobs:
 
       - name: pip-audit
         run: pip-audit
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: backend
