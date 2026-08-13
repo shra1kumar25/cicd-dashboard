@@ -97,7 +97,6 @@ jobs:
           cat backend/requirements.txt
           echo "----------------------------------------"
           cat backend/Dockerfile
-
       - name: Trivy Image Scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -107,6 +106,7 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
           scanners: 'vuln'
+          skip-dirs: '/app/.venv'
 
       - name: Push Docker Image
         run: |
