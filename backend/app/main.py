@@ -27,3 +27,10 @@ def health():
     return {
         "status": "healthy",
     }
+
+@app.get("/version")
+def version():
+    return {
+        "app": "CI/CD Dashboard API",
+        "version": "1.0.0",
+    }
