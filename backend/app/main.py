@@ -38,3 +38,10 @@ def version():
     @app.get("/ping")
 def ping():
     return {"message": "pong"}
+
+    @app.get("/info")
+def info():
+    return {
+        "application": "CI/CD Dashboard",
+        "environment": "development"
+    }
