@@ -35,13 +35,23 @@ def version():
         "version": "1.0.0",
     }
 
-    @app.get("/ping")
-def ping():
-    return {"message": "pong"}
-
+@app.get("/dashboard")
+def dashboard():
+    return {
+        "message": "Dashboard API",
+        "status": "active"
+    }
     @app.get("/info")
 def info():
     return {
         "application": "CI/CD Dashboard",
         "environment": "development"
+    }
+
+
+@app.get("/dashboard")
+def dashboard():
+    return {
+        "message": "Dashboard API",
+        "status": "active"
     }
